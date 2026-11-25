@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Masarra | Login</title>
+
+  <!-- Poppins from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS (Play CDN). For production, compile Tailwind with its CLI instead. -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Poppins', 'sans-serif'] },
+          colors: {
+            brand: { DEFAULT: '#824254', dark: '#6b3646' },
+            blush: '#F3CBC8',
+            coral: '#FA9B80',
+            footer: '#F8F8F8'
+          },
+          keyframes: {
+            toastIn:  { from: { opacity: 0, transform: 'translateX(24px)' }, to: { opacity: 1, transform: 'translateX(0)' } },
+            toastOut: { from: { opacity: 1, transform: 'translateX(0)' }, to: { opacity: 0, transform: 'translateX(24px)' } }
+          },
+          animation: { toastIn: 'toastIn .3s ease-out forwards', toastOut: 'toastOut .3s ease-in forwards' }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ---- Flip card (login <-> forgot password) ---- */
+    .flip-scene { perspective: 1400px; }
+    .flip-inner { transform-style: preserve-3d; transition: transform .8s cubic-bezier(.4, .2, .2, 1); }
+    .flip-inner.is-flipped { transform: rotateY(180deg); }
+    .flip-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .flip-back { transform: rotateY(180deg); }
+
+    /* Hero banner: banner image is 2149x1006, collage occupies the left 1341px (62.4%) */
+    .collage { background-image: url('/travel-site/assets/images/banner.jpg'); background-size: 160.25% 100%; background-position: left top; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .flip-inner { transition-duration: .01s; }
+    }
+  </style>
+</head>
+
+<body class="font-sans text-slate-700 bg-white overflow-x-hidden">
+
+  <!-- ===================== HERO: banner + login ===================== -->
+  <main class="grid lg:grid-cols-[62.4%_1fr] bg-brand">
+
+    <!-- ---------- Left: banner & branding ---------- -->
+    <section class="collage relative w-full aspect-[1341/1006]" aria-label="Masarra destination banner">
+      <!-- Logo over banner -->
+      <a href="#" class="absolute top-[1.8%] left-[12%] lg:left-[17.7%] w-[26%] lg:w-[16%] bg-white rounded-lg shadow-lg flex items-center justify-center p-1.5 lg:p-2">
+        <img src="assets/logo/logo.png" alt="Masarra Destination Management Company" class="w-full h-auto" />
+      </a>
+
+      <!-- Heading sits in the white middle band of the collage -->
+      <h1 class="absolute top-1/2 -translate-y-1/2 left-[12%] lg:left-[18%] w-[62%] lg:w-[52%] font-medium leading-[1.45] text-brand text-[5.2vw] lg:text-[2.5vw]">
+        Connecting You to Abu Dhabi &amp; Beyond
+      </h1>
+    </section>
+
+    <!-- ---------- Right: login / forgot password ---------- -->
+    <section class="flex items-center justify-center px-4 py-10 lg:py-0">
+
+      <!-- Fixed-size flip scene keeps both forms the same dimensions & position -->
+      <div class="flip-scene w-full max-w-[400px] h-[470px]">
+        <div id="flipInner" class="flip-inner relative w-full h-full">
+
+          <!-- ======== FRONT: Login ======== -->
+          <div id="loginFace" class="flip-face absolute inset-0 bg-white rounded-lg shadow-2xl shadow-black/30 p-8 flex flex-col justify-center">
+            <form id="loginForm" novalidate class="space-y-6" autocomplete="on">
+              <h2 class="sr-only">Sign in</h2>
+
+              <!-- Domain -->
+              <div class="relative">
+                <input id="domain" name="domain" type="text" placeholder=" " autocomplete="organization"
+                  class="peer block w-full h-14 px-3.5 text-sm bg-transparent border border-gray-300 rounded-md outline-none transition-all duration-200 focus:border-brand focus:ring-2 focus:ring-brand/20" />
+                <label for="domain"
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 bg-white text-sm text-gray-400 tracking-wide transition-all duration-200
+                         peer-focus:top-0 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">Domain</label>
+              </div>
+
+              <!-- Username -->
+              <div class="relative">
+                <input id="username" name="username" type="text" placeholder=" " autocomplete="username" autocapitalize="off" spellcheck="false"
+                  class="peer block w-full h-14 px-3.5 text-sm bg-transparent border border-gray-300 rounded-md outline-none transition-all duration-200 focus:border-brand focus:ring-2 focus:ring-brand/20" />
+                <label for="username"
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 bg-white text-sm text-gray-400 tracking-wide transition-all duration-200
+                         peer-focus:top-0 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">Username</label>
+              </div>
+
+              <!-- Password + show/hide -->
+              <div class="relative">
+                <input id="password" name="password" type="password" placeholder=" " autocomplete="current-password"
+                  class="peer block w-full h-14 pl-3.5 pr-12 text-sm bg-transparent border border-gray-300 rounded-md outline-none transition-all duration-200 focus:border-brand focus:ring-2 focus:ring-brand/20" />
+                <label for="password"
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 bg-white text-sm text-gray-400 tracking-wide transition-all duration-200
+                         peer-focus:top-0 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">Password</label>
+                <button type="button" data-toggle-password="password" aria-label="Show password"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded text-brand hover:bg-brand/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand transition-colors">
+                  <svg class="eye-open hidden w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg class="eye-closed w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 20C5 20 1 12 1 12a18.5 18.5 0 0 1 5.06-5.94M9.9 4.24A9.1 9.1 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="m1 1 22 22"/></svg>
+                </button>
+              </div>
+
+              <button type="submit" id="loginBtn"
+                class="w-full h-11 rounded-md bg-brand text-white text-sm font-semibold tracking-wide shadow-md transition-all duration-200
+                       hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[.98] focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/30 disabled:opacity-70 disabled:cursor-not-allowed">
+                Login
+              </button>
+
+              <div class="text-center">
+                <button type="button" data-flip="forgot"
+                  class="text-sm text-brand tracking-wide hover:underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded transition-colors">
+                  Forgot Password
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ======== BACK: Forgot password ======== -->
+          <div id="forgotFace" inert class="flip-face flip-back absolute inset-0 bg-white rounded-lg shadow-2xl shadow-black/30 p-8 flex flex-col justify-center">
+            <form id="forgotForm" novalidate class="space-y-6">
+              <div class="text-center -mt-2">
+                <h2 class="text-lg font-semibold text-brand">Reset your password</h2>
+                <p class="mt-1 text-xs text-gray-500">We'll email you a secure link that expires shortly.</p>
+              </div>
+
+              <div class="relative">
+                <input id="fpUsername" name="username" type="text" placeholder=" " autocomplete="username" autocapitalize="off" spellcheck="false"
+                  class="peer block w-full h-14 px-3.5 text-sm bg-transparent border border-gray-300 rounded-md outline-none transition-all duration-200 focus:border-brand focus:ring-2 focus:ring-brand/20" />
+                <label for="fpUsername"
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 bg-white text-sm text-gray-400 tracking-wide transition-all duration-200
+                         peer-focus:top-0 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">Username</label>
+              </div>
+
+              <div class="relative">
+                <input id="fpEmail" name="email" type="email" placeholder=" " autocomplete="email"
+                  class="peer block w-full h-14 px-3.5 text-sm bg-transparent border border-gray-300 rounded-md outline-none transition-all duration-200 focus:border-brand focus:ring-2 focus:ring-brand/20" />
+                <label for="fpEmail"
+                  class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 px-1 bg-white text-sm text-gray-400 tracking-wide transition-all duration-200
+                         peer-focus:top-0 peer-focus:text-xs peer-focus:text-brand peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-xs">Email Address</label>
+              </div>
+
+              <button type="submit" id="forgotBtn"
+                class="w-full h-11 rounded-md bg-brand text-white text-sm font-semibold tracking-wide shadow-md transition-all duration-200
+                       hover:bg-brand-dark hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-[.98] focus:outline-none focus-visible:ring-4 focus-visible:ring-brand/30 disabled:opacity-70 disabled:cursor-not-allowed">
+                Send Reset Link
+              </button>
+
+              <div class="text-center">
+                <button type="button" data-flip="login"
+                  class="text-sm text-brand tracking-wide hover:underline underline-offset-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded transition-colors">
+                  Back to Login
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-footer">
+    <div class="max-w-[1500px] mx-auto px-6 md:px-10 lg:px-[11%] pt-14">
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[2.3fr_1fr_1fr_1fr]">
+
+        <!-- Column 1: company -->
+        <div>
+          <img src="assets/logo/logo.png" alt="Masarra" class="h-14 w-auto -ml-2" />
+          <p class="mt-4 text-sm leading-6 tracking-wide text-slate-600 max-w-lg">
+            Masarra is a full-service Destination Management Company curating unique experiences across Abu Dhabi and the UAE. Backed by a passionate team of regional experts, we deliver tailored journeys—from MICE and golf to adventure—that are seamless, memorable, and crafted with care.
+          </p>
+        </div>
+
+        <!-- Column 2: About -->
+        <nav aria-label="About">
+          <h3 class="text-lg font-medium text-slate-900">About</h3>
+          <ul class="mt-5 space-y-4 text-sm tracking-wide">
+            <li><a href="#" class="footer-link">About Us</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 3: Support -->
+        <nav aria-label="Support">
+          <h3 class="text-lg font-medium text-slate-900">Support</h3>
+          <ul class="mt-5 space-y-4 text-sm tracking-wide">
+            <li><a href="#" class="footer-link">Customer Support</a></li>
+            <li><a href="#" class="footer-link">Product Support</a></li>
+            <li><a href="#" class="footer-link">Software Support</a></li>
+          </ul>
+        </nav>
+
+        <!-- Column 4: Important links -->
+        <nav aria-label="Important links">
+          <h3 class="text-lg font-medium text-slate-900">Important Links</h3>
+          <ul class="mt-5 space-y-4 text-sm tracking-wide">
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms and Conditions</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <hr class="mt-12 border-gray-300" />
+      <p class="py-8 text-center text-sm tracking-wide text-gray-500">
+        Powered By <a href="#" class="text-sky-700 hover:underline">Signature<sup>®</sup></a> | © 2016 - 2026 SRIGGLE Tech Private Limited
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast container -->
+  <div id="toastRoot" class="fixed top-4 right-4 left-4 sm:left-auto z-50 flex flex-col gap-3 sm:w-80 pointer-events-none" aria-live="polite"></div>
+
+  <style type="text/tailwindcss">
+    @layer components {
+      /* Footer link: colour shift + slight slide + animated underline */
+      .footer-link { @apply relative inline-block text-slate-600 transition-all duration-200 hover:text-brand hover:translate-x-1 focus:outline-none focus-visible:text-brand; }
+      .footer-link::after { content: ''; @apply absolute left-0 -bottom-0.5 h-px w-0 bg-brand transition-all duration-300; }
+      .footer-link:hover::after, .footer-link:focus-visible::after { @apply w-full; }
+    }
+  </style>
+
+  <script>
+    /* =====================================================================
+       1. TOAST NOTIFICATIONS
+       ===================================================================== */
+    const Toast = (() => {
+      const root = document.getElementById('toastRoot');
+      const styles = {
+        error:   { bar: 'bg-red-500',     icon: '!' },
+        success: { bar: 'bg-emerald-500', icon: '✓' },
+        info:    { bar: 'bg-brand',       icon: 'i' }
+      };
+      function show(message, type = 'info', duration = 3500) {
+        const s = styles[type] || styles.info;
+        const el = document.createElement('div');
+        el.setAttribute('role', type === 'error' ? 'alert' : 'status');
+        el.className = 'pointer-events-auto flex items-start gap-3 bg-white rounded-md shadow-xl border border-gray-100 overflow-hidden animate-toastIn';
+        el.innerHTML = `
+          <span class="w-1.5 self-stretch ${s.bar}"></span>
+          <span class="mt-3 w-5 h-5 shrink-0 rounded-full ${s.bar} text-white text-xs font-bold flex items-center justify-center">${s.icon}</span>
+          <p class="py-3 pr-2 text-sm text-slate-700 flex-1"></p>
+          <button type="button" class="p-3 text-gray-400 hover:text-gray-700 transition-colors" aria-label="Dismiss">✕</button>`;
+        el.querySelector('p').textContent = message; // textContent: no HTML injection
+        const close = () => {
+          el.classList.remove('animate-toastIn');
+          el.classList.add('animate-toastOut');
+          el.addEventListener('animationend', () => el.remove(), { once: true });
+        };
+        el.querySelector('button').addEventListener('click', close);
+        root.appendChild(el);
+        setTimeout(close, duration);
+      }
+      return { show };
+    })();
+
+    /* =====================================================================
+       2. API LAYER  (connect your backend here — UI code never calls fetch directly)
+       ===================================================================== */
+    const AuthAPI = {
+      /** POST credentials to your authentication endpoint. */
+      async login({ domain, username, password }) {
+        // TODO: replace with the real endpoint, e.g.
+        // const res = await fetch('/api/auth/login', {
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   credentials: 'include',
+        //   body: JSON.stringify({ domain, username, password })
+        // });
+        // if (!res.ok) throw new Error((await res.json()).message || 'Login failed');
+        // return res.json();
+        await new Promise(r => setTimeout(r, 900)); // demo latency
+        return { success: true };
+      },
+
+      /**
+       * Ask the server to email a one-time, expiring reset link.
+       * The server must generate a random token, store only its hash with an expiry,
+       * and respond identically whether or not the account exists (prevents user enumeration).
+       * Passwords are never emailed.
+       */
+      async requestPasswordReset({ username, email }) {
+        // TODO: await fetch('/api/auth/forgot-password', { method: 'POST', ... })
+        await new Promise(r => setTimeout(r, 900)); // demo latency
+        return { success: true };
+      }
+    };
+
+    /* =====================================================================
+       3. VALIDATION (pure functions, no DOM / API access)
+       ===================================================================== */
+    const Validators = {
+      // Any characters are allowed in all fields; we only check for presence.
+      login({ domain, username, password }) {
+        if (!domain.trim())   return { field: 'domain',   message: 'Please enter your domain.' };
+        if (!username.trim()) return { field: 'username', message: 'Please enter your username.' };
+        if (!password)        return { field: 'password', message: 'Please enter your password.' };
+        return null;
+      },
+      forgot({ username, email }) {
+        if (!username.trim()) return { field: 'fpUsername', message: 'Please enter your username.' };
+        if (!email.trim())    return { field: 'fpEmail',    message: 'Please enter your email address.' };
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim()))
+                              return { field: 'fpEmail',    message: 'Please enter a valid email address.' };
+        return null;
+      }
+    };
+
+    /* =====================================================================
+       4. UI HANDLERS
+       ===================================================================== */
+    const $ = id => document.getElementById(id);
+
+    // Button loading state helper
+    function setLoading(btn, loading, label) {
+      btn.disabled = loading;
+      btn.textContent = loading ? 'Please wait…' : label;
+    }
+
+    // ---- Password show / hide ----
+    document.querySelectorAll('[data-toggle-password]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = $(btn.dataset.togglePassword);
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+        btn.querySelector('.eye-open').classList.toggle('hidden', !show);
+        btn.querySelector('.eye-closed').classList.toggle('hidden', show);
+      });
+    });
+
+    // ---- Flip between Login and Forgot Password ----
+    const flipInner = $('flipInner');
+    function flipTo(target) {
+      const toForgot = target === 'forgot';
+      flipInner.classList.toggle('is-flipped', toForgot);
+      // 'inert' keeps the hidden face out of the tab order and screen readers
+      $('loginFace').inert = toForgot;
+      $('forgotFace').inert = !toForgot;
+      setTimeout(() => $(toForgot ? 'fpUsername' : 'username').focus({ preventScroll: true }), 450);
+    }
+    document.querySelectorAll('[data-flip]').forEach(b => b.addEventListener('click', () => flipTo(b.dataset.flip)));
+
+    // ---- Login submit ----
+    $('loginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = { domain: $('domain').value, username: $('username').value, password: $('password').value };
+      const error = Validators.login(data);
+      if (error) { Toast.show(error.message, 'error'); $(error.field).focus(); return; }
+
+      setLoading($('loginBtn'), true, 'Login');
+      try {
+        await AuthAPI.login({ ...data, domain: data.domain.trim(), username: data.username.trim() });
+        Toast.show('Login successful. Redirecting…', 'success');
+        // TODO: window.location.href = '/dashboard';
+      } catch (err) {
+        Toast.show(err.message || 'Login failed. Please try again.', 'error');
+      } finally {
+        setLoading($('loginBtn'), false, 'Login');
+      }
+    });
+
+    // ---- Forgot password submit ----
+    $('forgotForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = { username: $('fpUsername').value, email: $('fpEmail').value };
+      const error = Validators.forgot(data);
+      if (error) { Toast.show(error.message, 'error'); $(error.field).focus(); return; }
+
+      setLoading($('forgotBtn'), true, 'Send Reset Link');
+      try {
+        await AuthAPI.requestPasswordReset({ username: data.username.trim(), email: data.email.trim() });
+        // Neutral message: doesn't reveal whether the account exists
+        Toast.show('If the details match an account, a reset link has been sent to your email.', 'success', 5000);
+        $('forgotForm').reset();
+        flipTo('login');
+      } catch (err) {
+        Toast.show(err.message || 'Could not send the reset link. Please try again.', 'error');
+      } finally {
+        setLoading($('forgotBtn'), false, 'Send Reset Link');
+      }
+    });
+  </script>
+</body>
+</html>
