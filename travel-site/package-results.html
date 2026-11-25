@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Package Results | Masarra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/styles.css"><link rel="stylesheet" href="css/header.css"><link rel="stylesheet" href="css/footer.css"><link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hotel-results.css"><link rel="stylesheet" href="css/package-pages.css">
+</head>
+<body data-module="package-results">
+  <div id="app-header"></div>
+  <main class="page-offset hr-page">
+    <section class="hr-summary" aria-label="Search summary">
+      <div class="hr-wrap"><div class="hr-summary__grid" id="hrSummary"></div></div>
+      <div class="hr-summary__bar"><div class="hr-wrap"><button class="hr-modify" id="hrModify" type="button"></button></div></div>
+    </section>
+    <div class="hr-wrap hr-layout">
+      <div class="hr-overlay" id="hrOverlay"></div>
+      <aside class="hr-filters" id="hrFilters" aria-label="Filters"></aside>
+      <section class="hr-results" aria-live="polite">
+        <div class="hr-sortbar"><button class="hr-filterbtn" id="hrOpenFilters" type="button"></button><span class="hr-sortbar__label">Sort by</span>
+          <select id="pkSort" aria-label="Sort packages"><option value="price-asc">Price: Low to High</option><option value="price-desc">Price: High to Low</option><option value="name-asc">Name: A – Z</option><option value="days-asc">Duration: Short to Long</option></select>
+          <span class="hr-count" id="hrCount"></span></div>
+        <div id="hrList"></div>
+        <nav class="pk-pager" id="pkPager" aria-label="Pagination"></nav>
+      </section>
+    </div>
+  </main>
+  <div id="app-footer"></div>
+  <div id="app-overlays"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

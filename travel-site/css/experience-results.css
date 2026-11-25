@@ -1,0 +1,26 @@
+/* Experience & Service results (builds on css/hotel-results.css layout, filters, modals) */
+.ex-seg{display:inline-flex;padding:2px;border-radius:999px;background:var(--color-cream)}
+.ex-seg button{padding:.45rem 1rem;border:0;border-radius:999px;background:transparent;font:500 var(--fs-sm) var(--font-sans);color:var(--text-main);cursor:pointer;transition:all var(--dur) var(--ease)}
+.ex-seg button.is-on{background:var(--color-cta);color:#fff;box-shadow:0 4px 10px rgba(180,97,110,.35)}
+.ex-card{display:grid;grid-template-columns:14rem minmax(0,1fr) 12rem;margin-bottom:1.1rem;background:#fff;border:1px solid #eee4e6;border-radius:4px;overflow:hidden;box-shadow:var(--shadow-sm);animation:hrFade .6s var(--ease) both;animation-delay:calc(var(--i,0)*80ms);transition:box-shadow var(--dur),transform var(--dur)}
+.ex-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.ex-img{position:relative;display:block;min-height:11rem;padding:0;border:0;background:var(--color-secondary);cursor:pointer;overflow:hidden}
+.ex-img__in,.ex-ph{position:absolute;inset:0;background-repeat:no-repeat;transition:transform .9s var(--ease)}
+.ex-card:hover .ex-img__in{transform:scale(1.08)}
+.ex-ph{display:grid;place-items:center;background:#f3e4e7}.ex-ph svg{width:62%;max-height:70%}
+.ex-ph--big{position:static;height:min(26rem,55vh)}
+.ex-body{display:flex;flex-direction:column;gap:.35rem;padding:1rem 1.3rem;min-width:0}
+.ex-body h3{margin:0}.ex-body h3 button{padding:0;border:0;background:none;color:var(--color-primary);font:600 1.05rem/1.4 var(--font-sans);letter-spacing:.04em;text-align:left;cursor:pointer}.ex-body h3 button:hover{text-decoration:underline}
+.ex-desc{margin:0;font-size:.95rem;line-height:1.65;letter-spacing:.02em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ex-link{align-self:flex-start;padding:0;border:0;background:none;color:var(--color-primary);font:500 .9rem var(--font-sans);letter-spacing:.04em;cursor:pointer;transition:color var(--dur)}.ex-link:hover{color:var(--color-cta);text-decoration:underline}.ex-link--u{text-decoration:underline;margin-top:.1rem}
+.ex-checks{margin:auto 0 0;padding:.6rem 0 0;list-style:none;display:grid;gap:.35rem;font-size:.9rem;letter-spacing:.03em}
+.ex-checks li,.ex-flist li{display:flex;align-items:center;gap:.5rem}
+.ex-tick{flex:none;width:16px;height:16px;fill:none;stroke:#3a9d4a;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ex-buy{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;padding:1rem;border-left:1px solid #eee4e6;text-align:center}
+.ex-pref{padding:.15rem .8rem;border:1px solid #ddd;border-radius:2px;color:#9a9a9a;font-size:.8rem;letter-spacing:.05em}
+.ex-price{font-size:1.15rem;font-weight:400}.ex-price b{font-weight:500}.ex-buy small{font-size:.8rem;letter-spacing:.04em;color:var(--text-muted)}
+.ex-select{min-width:7.5rem;margin-top:.3rem;font-weight:600;letter-spacing:.03em}
+.ex-flist{margin:0;padding:.2rem 0;list-style:none;display:grid;gap:.75rem;font-size:1rem;letter-spacing:.03em;max-height:60vh;overflow:auto}
+.hr-modal__head h2{line-height:1.35}
+@media(max-width:1023px){.ex-card{grid-template-columns:11rem minmax(0,1fr)}.ex-buy{grid-column:1/-1;flex-direction:row;flex-wrap:wrap;justify-content:space-between;border-left:0;border-top:1px solid #eee4e6;text-align:left}.hr-count{display:none}}
+@media(max-width:640px){.ex-card{grid-template-columns:1fr}.ex-img{min-height:12rem}.ex-body{padding:1rem}.ex-seg{width:100%}.ex-seg button{flex:1}}

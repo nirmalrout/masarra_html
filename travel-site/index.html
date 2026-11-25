@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home | Masarra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="js/tailwind-config.js"></script>
+  <link rel="stylesheet" href="css/styles.css"><link rel="stylesheet" href="css/header.css"><link rel="stylesheet" href="css/footer.css"><link rel="stylesheet" href="css/components.css">
+</head>
+<body data-module="home">
+  <div id="app-header"></div>
+  <main class="page-offset">
+    <section class="hero" aria-label="Promotion">
+      <div class="hero-text" id="hero-text">
+        <h1 id="hero-title">Discover Abu Dhabi, your way</h1>
+        <p id="hero-desc">Hotels, experiences and transfers curated by regional experts.</p>
+        <div><a class="btn btn-primary" href="packages.html">Explore packages</a></div>
+      </div>
+      <div class="hero-art" role="img" aria-label="Abu Dhabi destinations collage"></div>
+    </section>
+    <div class="container-app">
+      <section class="section"><div class="section-head"><h2>Popular Hotels</h2><a href="hotels.html">See all</a></div><div id="hotels-carousel"></div></section>
+      <section class="section"><div class="section-head"><h2>Popular Experiences</h2><a href="experiences.html">See all</a></div><div id="experiences-carousel"></div></section>
+      <section class="section"><div class="section-head"><h2>Popular Services</h2><a href="packages.html">See all</a></div><div id="services-carousel"></div></section>
+    </div>
+  </main>
+  <div id="app-footer"></div>
+  <div id="app-overlays"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
